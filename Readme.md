@@ -1,7 +1,7 @@
 # Личный проект «Код и Магия» [![Build status][travis-image]][travis-url] [![Dependency status][dependency-image]][dependency-url]
 
 * Студент: [Василий Гречин](https://up.htmlacademy.ru/javascript/7/user/86810).
-* Наставник: `Неизвестно`.
+* Наставник: `Сергей Катревич`.
 
 ---
 
