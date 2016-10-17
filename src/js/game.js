@@ -410,16 +410,74 @@ window.Game = (function() {
     _drawPauseScreen: function() {
       switch (this.state.currentStatus) {
         case Verdict.WIN:
-          console.log('you have won!');
+          this.ctx.fillStyle="rgba(0, 0, 0, 0.7)";
+          this.ctx.beginPath();
+          this.ctx.moveTo(110,110);
+          this.ctx.lineTo(380,130);
+          this.ctx.lineTo(380,180);
+          this.ctx.lineTo(110,200);
+          this.ctx.closePath();
+          this.ctx.fill("nonzero");
+          this.ctx.fillStyle="#FFFFFF";
+          this.ctx.beginPath();
+          this.ctx.moveTo(100,100);
+          this.ctx.lineTo(370,120);
+          this.ctx.lineTo(370,170);
+          this.ctx.lineTo(100,190);
+          this.ctx.closePath();
+          this.ctx.fill("nonzero");
+          this.ctx.fillStyle="blue";
+          this.ctx.textBaseline = 'hanging';
+          this.ctx.font = "16px PT Mono";
+          this.ctx.fillText('Победа',110,110);
+          this.ctx.fillText('Пендальф синий - лучший!',110,130);
           break;
         case Verdict.FAIL:
-          console.log('you have failed!');
+          this.ctx.fillStyle="rgba(0, 0, 0, 0.7)";
+          this.ctx.beginPath();
+          this.ctx.moveTo(110,110);
+          this.ctx.lineTo(380,130);
+          this.ctx.lineTo(380,180);
+          this.ctx.lineTo(110,200);
+          this.ctx.closePath();
+          this.ctx.fill("nonzero");
+          this.ctx.fillStyle="#FFFFFF";
+          this.ctx.beginPath();
+          this.ctx.moveTo(100,100);
+          this.ctx.lineTo(370,110);
+          this.ctx.lineTo(370,170);
+          this.ctx.lineTo(100,150);
+          this.ctx.closePath();
+          this.ctx.fill("nonzero");
+          this.ctx.fillStyle="blue";
+          this.ctx.textBaseline='hanging';
+          this.ctx.font = "16px PT Mono";
+          this.ctx.fillText('Пендальф проиграл',110,110);
+          this.ctx.fillText('Пендальф уходи!',110,130);
           break;
         case Verdict.PAUSE:
-          console.log('game is on pause!');
+          this.ctx.fillStyle="rgba(0, 0, 0, 0.7)";
+          this.ctx.fillRect(110,110,230,70);
+          this.ctx.fillStyle="#FFFFFF";
+          this.ctx.fillRect(100,100,230,70);
+          this.ctx.fillStyle="blue";
+          this.ctx.textBaseline='hanging';
+          this.ctx.font="16px PT Mono";
+          this.ctx.fillText('Пауза',110,110);
+          this.ctx.fillText('Чтобы продолжить',110,130);
+          this.ctx.fillText('нужно нажать пробел',110,150);
           break;
         case Verdict.INTRO:
-          console.log('welcome to the game! Press Space to start');
+          this.ctx.fillStyle="rgba(0, 0, 0, 0.7)";
+          this.ctx.fillRect(110,110,230,70);
+          this.ctx.fillStyle="#FFFFFF";
+          this.ctx.fillRect(100,100,230,70);
+          this.ctx.fillStyle="blue";
+          this.ctx.textBaseline='hanging';
+          this.ctx.font = "16px PT Mono";
+          this.ctx.fillText('Добро пожаловать!', 110, 110);
+          this.ctx.fillText('Нажмите пробел', 110, 130);
+          this.ctx.fillText('чтобы начать игру!', 110, 150);
           break;
       }
     },
