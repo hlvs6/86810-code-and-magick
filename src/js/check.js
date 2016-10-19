@@ -14,7 +14,7 @@ function distancePath(a, b) {
   return 'Я прошёл ' + amount + ' метров';
 }
 
-function getMessage(a, b) {
+window.getMessage = function(a, b) {
   if (typeof a === 'boolean') {
     if (a) {
       return 'Я попал в ' + b;
@@ -32,4 +32,4 @@ function getMessage(a, b) {
   } else {
     return 'Переданы некорректные данные';
   }
-}
+};

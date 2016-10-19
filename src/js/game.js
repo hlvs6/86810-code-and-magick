@@ -407,77 +407,86 @@ window.Game = (function() {
     /**
      * Отрисовка экрана паузы.
      */
+
     _drawPauseScreen: function() {
       switch (this.state.currentStatus) {
+
         case Verdict.WIN:
-          this.ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
-          this.ctx.beginPath();
-          this.ctx.moveTo(110, 110);
-          this.ctx.lineTo(380, 130);
-          this.ctx.lineTo(380, 180);
-          this.ctx.lineTo(110, 200);
-          this.ctx.closePath();
-          this.ctx.fill('nonzero');
-          this.ctx.fillStyle = '#FFFFFF';
-          this.ctx.beginPath();
-          this.ctx.moveTo(100, 100);
-          this.ctx.lineTo(370, 120);
-          this.ctx.lineTo(370, 170);
-          this.ctx.lineTo(100, 190);
-          this.ctx.closePath();
-          this.ctx.fill('nonzero');
-          this.ctx.fillStyle = 'blue';
-          this.ctx.textBaseline = 'hanging';
-          this.ctx.font = '16px PT Mono';
-          this.ctx.fillText('Победа', 110, 110);
-          this.ctx.fillText('Пендальф синий - лучший!', 110, 130);
+        var cctx = this.ctx;
+
+        function drawRectangle() {
+          cctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+          cctx.fillRect(110, 110, 230, 70);
+          cctx.fillStyle = '#FFFFFF';
+          cctx.fillRect(100, 100, 230, 70);
+        }
+
+        function drawPolygon(polygon) {
+          cctx.fillStyle = polygon[0];
+          cctx.beginPath();
+          cctx.moveTo(polygon[1].positionx, polygon[1].positiony);
+          for (var i = 2; i < polygon.length; i++) {
+            cctx.lineTo(polygon[i].positionx, polygon[i].positiony);
+          }
+          cctx.closePath();
+          cctx.fill('nonzero');
+        }
+
+        function writeText(text) {
+
+          cctx.fill('nonzero');
+          cctx.fillStyle = 'blue';
+          cctx.textBaseline = 'hanging';
+          cctx.font = '16px PT Mono';
+          for (var i = 0; i < text.length; i++) {
+            cctx.fillText(text[i], 110, 110 + i * 20);
+          }
+        }
+
+        // polygon0 - shadow
+
+        var polygon0 = [
+          'rgba(0, 0, 0, 0.7)',
+          { positionx: 110, positiony: 110 },
+          { positionx: 380, positiony: 130 },
+          { positionx: 380, positiony: 180 },
+          { positionx: 110, positiony: 200 }
+        ];
+
+        drawPolygon(polygon0);
+
+        var polygon1 = [
+          '#FFFFFF',
+          { positionx: 100, positiony: 100 },
+          { positionx: 370, positiony: 120 },
+          { positionx: 370, positiony: 170 },
+          { positionx: 100, positiony: 190 }
+        ];
+
+        drawPolygon (polygon1);
+        var messagetext = ['Победа', 'Пендальф синий - лучший'];
+        writeText(messagetext);
+
           break;
         case Verdict.FAIL:
-          this.ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
-          this.ctx.beginPath();
-          this.ctx.moveTo(110, 110);
-          this.ctx.lineTo(380, 130);
-          this.ctx.lineTo(380, 180);
-          this.ctx.lineTo(110, 200);
-          this.ctx.closePath();
-          this.ctx.fill('nonzero');
-          this.ctx.fillStyle = '#FFFFFF';
-          this.ctx.beginPath();
-          this.ctx.moveTo(100, 100);
-          this.ctx.lineTo(370, 110);
-          this.ctx.lineTo(370, 170);
-          this.ctx.lineTo(100, 190);
-          this.ctx.closePath();
-          this.ctx.fill('nonzero');
-          this.ctx.fillStyle = 'blue';
-          this.ctx.textBaseline = 'hanging';
-          this.ctx.font = '16px PT Mono';
-          this.ctx.fillText('Пендальф проиграл', 110, 110);
-          this.ctx.fillText('Пендальф уходи!', 110, 130);
+
+          drawPolygon(polygon0);
+          drawPolygon (polygon1);
+          messagetext = ['Пендальф проиграл', 'Пендальф уходи'];
+          writeText(messagetext);
+
           break;
         case Verdict.PAUSE:
-          this.ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
-          this.ctx.fillRect(110, 110, 230, 70);
-          this.ctx.fillStyle = '#FFFFFF';
-          this.ctx.fillRect(100, 100, 230, 70);
-          this.ctx.fillStyle = 'blue';
-          this.ctx.textBaseline = 'hanging';
-          this.ctx.font = '16px PT Mono';
-          this.ctx.fillText('Пауза', 110, 110);
-          this.ctx.fillText('Чтобы продолжить', 110, 130);
-          this.ctx.fillText('нужно нажать пробел', 110, 150);
+
+          drawRectangle();
+          var messageText = ['Добро пожаловать', 'Чтобы начать игру', 'Нажмите пробел'];
+          writeText(messageText);
           break;
         case Verdict.INTRO:
-          this.ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
-          this.ctx.fillRect(110, 110, 230, 70);
-          this.ctx.fillStyle = '#FFFFFF';
-          this.ctx.fillRect(100, 100, 230, 70);
-          this.ctx.fillStyle = 'blue';
-          this.ctx.textBaseline = 'hanging';
-          this.ctx.font = '16px PT Mono';
-          this.ctx.fillText('Добро пожаловать!', 110, 110);
-          this.ctx.fillText('Нажмите пробел', 110, 130);
-          this.ctx.fillText('чтобы начать игру!', 110, 150);
+
+          drawRectangle();
+          messageText = ['Добро пожаловать', 'Чтобы начать игру', 'Нажмите пробел'];
+          writeText(messageText);
           break;
       }
     },
