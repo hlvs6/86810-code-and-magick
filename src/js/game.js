@@ -409,69 +409,72 @@ window.Game = (function() {
      */
 
     _drawPauseScreen: function() {
+
+      var cctx = this.ctx;
+      var messagetext = [];
+
+      function drawRectangle() {
+        cctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+        cctx.fillRect(110, 110, 230, 70);
+        cctx.fillStyle = '#FFFFFF';
+        cctx.fillRect(100, 100, 230, 70);
+      }
+
+      function drawPolygon(polygon) {
+        cctx.fillStyle = polygon[0];
+        cctx.beginPath();
+        cctx.moveTo(polygon[1].positionx, polygon[1].positiony);
+        for (var i = 2; i < polygon.length; i++) {
+          cctx.lineTo(polygon[i].positionx, polygon[i].positiony);
+        }
+        cctx.closePath();
+        cctx.fill('nonzero');
+      }
+
+      function writeText(text) {
+
+        cctx.fill('nonzero');
+        cctx.fillStyle = 'blue';
+        cctx.textBaseline = 'hanging';
+        cctx.font = '16px PT Mono';
+        for (var i = 0; i < text.length; i++) {
+          cctx.fillText(text[i], 110, 110 + i * 20);
+        }
+      }
+
       switch (this.state.currentStatus) {
 
         case Verdict.WIN:
-        var cctx = this.ctx;
-
-        function drawRectangle() {
-          cctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
-          cctx.fillRect(110, 110, 230, 70);
-          cctx.fillStyle = '#FFFFFF';
-          cctx.fillRect(100, 100, 230, 70);
-        }
-
-        function drawPolygon(polygon) {
-          cctx.fillStyle = polygon[0];
-          cctx.beginPath();
-          cctx.moveTo(polygon[1].positionx, polygon[1].positiony);
-          for (var i = 2; i < polygon.length; i++) {
-            cctx.lineTo(polygon[i].positionx, polygon[i].positiony);
-          }
-          cctx.closePath();
-          cctx.fill('nonzero');
-        }
-
-        function writeText(text) {
-
-          cctx.fill('nonzero');
-          cctx.fillStyle = 'blue';
-          cctx.textBaseline = 'hanging';
-          cctx.font = '16px PT Mono';
-          for (var i = 0; i < text.length; i++) {
-            cctx.fillText(text[i], 110, 110 + i * 20);
-          }
-        }
 
         // polygon0 - shadow
 
-        var polygon0 = [
-          'rgba(0, 0, 0, 0.7)',
-          { positionx: 110, positiony: 110 },
-          { positionx: 380, positiony: 130 },
-          { positionx: 380, positiony: 180 },
-          { positionx: 110, positiony: 200 }
-        ];
+          var polygon0 = [
+            'rgba(0, 0, 0, 0.7)',
+            { positionx: 110, positiony: 110 },
+            { positionx: 380, positiony: 130 },
+            { positionx: 380, positiony: 180 },
+            { positionx: 110, positiony: 200 }
+          ];
 
-        drawPolygon(polygon0);
+          drawPolygon(polygon0);
 
-        var polygon1 = [
-          '#FFFFFF',
-          { positionx: 100, positiony: 100 },
-          { positionx: 370, positiony: 120 },
-          { positionx: 370, positiony: 170 },
-          { positionx: 100, positiony: 190 }
-        ];
+          var polygon1 = [
+            '#FFFFFF',
+            { positionx: 100, positiony: 100 },
+            { positionx: 370, positiony: 120 },
+            { positionx: 370, positiony: 170 },
+            { positionx: 100, positiony: 190 }
+          ];
 
-        drawPolygon (polygon1);
-        var messagetext = ['Победа', 'Пендальф синий - лучший'];
-        writeText(messagetext);
+          drawPolygon(polygon1);
+          messagetext = ['Победа', 'Пендальф синий - лучший'];
+          writeText(messagetext);
 
           break;
         case Verdict.FAIL:
 
           drawPolygon(polygon0);
-          drawPolygon (polygon1);
+          drawPolygon(polygon1);
           messagetext = ['Пендальф проиграл', 'Пендальф уходи'];
           writeText(messagetext);
 
