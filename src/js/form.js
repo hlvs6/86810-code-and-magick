@@ -24,6 +24,18 @@ window.form = (function() {
     }
   };
 
+  // var form = document.form[1];
+  // var radiobuttons = form.elements['review-mark'];
+  // form.elements['review-name'].setAttribute('required');
+  //
+  // for ( var i = 0; i < radiobuttons.length; i++) {
+  //
+  //   if ( radiobuttons[i].value < 3) {
+  //
+  //     form.elements['review-text'].setAttribute('required');
+  //   }
+  // }
+
 
   formCloseButton.onclick = function(evt) {
     evt.preventDefault();

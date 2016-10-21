@@ -412,7 +412,7 @@ window.Game = (function() {
 
       var cctx = this.ctx;
 
-      // verticespolygonshadow - shadow for verticespolygon 
+      // verticespolygonshadow - shadow for verticespolygon
 
       var verticespolygonshadow = [
         'rgba(0, 0, 0, 0.7)',
@@ -458,30 +458,22 @@ window.Game = (function() {
       switch (this.state.currentStatus) {
 
         case Verdict.WIN:
-          drawPolygon(verticespolygonshadow);
-          drawPolygon(verticespolygon);
           var stringsmessage = ['Победа', 'Пендальф синий - лучший'];
-          writeText(stringsmessage);
           break;
         case Verdict.FAIL:
-          drawPolygon(verticespolygonshadow);
-          drawPolygon(verticespolygon);
           stringsmessage = ['Пендальф проиграл', 'Пендальф уходи'];
-          writeText(stringsmessage);
           break;
         case Verdict.PAUSE:
-          drawPolygon(verticespolygonshadow);
-          drawPolygon(verticespolygon);
           stringsmessage = ['Пауза', 'Чтобы продолжить игру', 'Нажмите пробел'];
-          writeText(stringsmessage);
           break;
         case Verdict.INTRO:
-          drawPolygon(verticespolygonshadow);
-          drawPolygon(verticespolygon);
           stringsmessage = ['Добро пожаловать', 'Чтобы начать игру', 'Нажмите пробел'];
-          writeText(stringsmessage);
           break;
       }
+
+      drawPolygon(verticespolygonshadow);
+      drawPolygon(verticespolygon);
+      writeText(stringsmessage);
     },
 
     /**
