@@ -411,14 +411,24 @@ window.Game = (function() {
     _drawPauseScreen: function() {
 
       var cctx = this.ctx;
-      var messagetext = [];
 
-      function drawRectangle() {
-        cctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
-        cctx.fillRect(110, 110, 230, 70);
-        cctx.fillStyle = '#FFFFFF';
-        cctx.fillRect(100, 100, 230, 70);
-      }
+      // verticespolygonshadow - shadow for verticespolygon 
+
+      var verticespolygonshadow = [
+        'rgba(0, 0, 0, 0.7)',
+        { positionx: 110, positiony: 110 },
+        { positionx: 380, positiony: 130 },
+        { positionx: 380, positiony: 180 },
+        { positionx: 110, positiony: 200 }
+      ];
+
+      var verticespolygon = [
+        '#FFFFFF',
+        { positionx: 100, positiony: 100 },
+        { positionx: 370, positiony: 120 },
+        { positionx: 370, positiony: 170 },
+        { positionx: 100, positiony: 190 }
+      ];
 
       function drawPolygon(polygon) {
         cctx.fillStyle = polygon[0];
@@ -431,65 +441,45 @@ window.Game = (function() {
         cctx.fill('nonzero');
       }
 
-      function writeText(text) {
+      function writeText(stringsmessage) {
 
+        var positionx = 110;
+        var positiony = 110;
+        var lineheight = 20;
         cctx.fill('nonzero');
         cctx.fillStyle = 'blue';
         cctx.textBaseline = 'hanging';
         cctx.font = '16px PT Mono';
-        for (var i = 0; i < text.length; i++) {
-          cctx.fillText(text[i], 110, 110 + i * 20);
+        for (var i = 0; i < stringsmessage.length; i++) {
+          cctx.fillText(stringsmessage[i], positionx, positiony + i * lineheight);
         }
       }
 
       switch (this.state.currentStatus) {
 
         case Verdict.WIN:
-
-        // polygon0 - shadow
-
-          var polygon0 = [
-            'rgba(0, 0, 0, 0.7)',
-            { positionx: 110, positiony: 110 },
-            { positionx: 380, positiony: 130 },
-            { positionx: 380, positiony: 180 },
-            { positionx: 110, positiony: 200 }
-          ];
-
-          drawPolygon(polygon0);
-
-          var polygon1 = [
-            '#FFFFFF',
-            { positionx: 100, positiony: 100 },
-            { positionx: 370, positiony: 120 },
-            { positionx: 370, positiony: 170 },
-            { positionx: 100, positiony: 190 }
-          ];
-
-          drawPolygon(polygon1);
-          messagetext = ['Победа', 'Пендальф синий - лучший'];
-          writeText(messagetext);
-
+          drawPolygon(verticespolygonshadow);
+          drawPolygon(verticespolygon);
+          var stringsmessage = ['Победа', 'Пендальф синий - лучший'];
+          writeText(stringsmessage);
           break;
         case Verdict.FAIL:
-
-          drawPolygon(polygon0);
-          drawPolygon(polygon1);
-          messagetext = ['Пендальф проиграл', 'Пендальф уходи'];
-          writeText(messagetext);
-
+          drawPolygon(verticespolygonshadow);
+          drawPolygon(verticespolygon);
+          stringsmessage = ['Пендальф проиграл', 'Пендальф уходи'];
+          writeText(stringsmessage);
           break;
         case Verdict.PAUSE:
-
-          drawRectangle();
-          var messageText = ['Добро пожаловать', 'Чтобы начать игру', 'Нажмите пробел'];
-          writeText(messageText);
+          drawPolygon(verticespolygonshadow);
+          drawPolygon(verticespolygon);
+          stringsmessage = ['Пауза', 'Чтобы продолжить игру', 'Нажмите пробел'];
+          writeText(stringsmessage);
           break;
         case Verdict.INTRO:
-
-          drawRectangle();
-          messageText = ['Добро пожаловать', 'Чтобы начать игру', 'Нажмите пробел'];
-          writeText(messageText);
+          drawPolygon(verticespolygonshadow);
+          drawPolygon(verticespolygon);
+          stringsmessage = ['Добро пожаловать', 'Чтобы начать игру', 'Нажмите пробел'];
+          writeText(stringsmessage);
           break;
       }
     },
