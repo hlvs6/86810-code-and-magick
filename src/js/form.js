@@ -25,10 +25,11 @@ window.form = (function() {
   };
 
   var formReview = document.querySelector('.review-form');
+  var radiobuttons = formReview.elements('review-mark');
 
   //
   // var radiobuttons = form.elements['review-mark'];
-  formReview.querySelector('.review-form-field-name').setAttribute('required','required');
+  formReview.querySelector('.review-form-field-name').setAttribute('required', 'required');
   //
   for ( var i = 0; i < radiobuttons.length; i++) {
 
