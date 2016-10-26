@@ -29,71 +29,74 @@ window.form = (function() {
   inputName.setAttribute('required', 'required');
 
   var buttonSubmit = document.querySelector('.review-submit');
-
   var radioButtons = document.querySelectorAll('input[name="review-mark"]');
   var textAreaComment = document.querySelector('#review-text');
 
-  function countStars () {
+  function countStars() {
     textAreaComment.removeAttribute('required', 'required');
     for ( var i = 0; i < radioButtons.length; i++) {
       if ((radioButtons[i].checked) && (radioButtons[i].value < 3)) {
-          textAreaComment.setAttribute('required', 'required');
+        textAreaComment.setAttribute('required', 'required');
       }
     }
   }
 
-  countStars();
-
-  radioButtons[0].onchange = function () {
-    countStars();
-  };
-  radioButtons[1].onchange = function () {
-    countStars();
-  };
-  radioButtons[2].onchange = function () {
-    countStars();
-  };
-  radioButtons[3].onchange = function () {
-    countStars();
-  };
-  radioButtons[4].onchange = function () {
-    countStars();
-  };
-
   var labelFieldsName = document.querySelector('.review-fields-name');
+  var labelFieldsComment = document.querySelector('.review-fields-text');
+  var labelFormControls = document.querySelector('.review-fields');
 
-  labelFieldsName.style.display = 'none';
+  function checksFilling() {
 
-  function checksFilling () {
+    labelFieldsName.style.display = 'none';
+    labelFieldsComment.style.display = 'none';
+    labelFormControls.style.display = 'inline-block';
+    buttonSubmit.setAttribute('disabled', 'disabled');
 
     if (inputName.value === '') {
       labelFieldsName.style.display = 'inline';
     }
 
-    else {
-      labelFieldsName.style.display = 'none';
+    if ((textAreaComment.value === '') && (textAreaComment.hasAttribute('required'))) {
+      labelFieldsComment.style.display = 'inline';
+    }
+
+    if ((inputName.value !== '') && ((textAreaComment.value !== '') || (textAreaComment.getAttribute('required') === null))) {
+      buttonSubmit.removeAttribute('disabled', 'disabled');
+      labelFormControls.style.display = 'none';
     }
   }
 
+  countStars();
   checksFilling();
 
-  inputName.onchange = function () {
+  radioButtons[0].onchange = function() {
+    countStars();
     checksFilling();
-    console.log('Победа');
+  };
+  radioButtons[1].onchange = function() {
+    countStars();
+    checksFilling();
+  };
+  radioButtons[2].onchange = function() {
+    countStars();
+    checksFilling();
+  };
+  radioButtons[3].onchange = function() {
+    countStars();
+    checksFilling();
+  };
+  radioButtons[4].onchange = function() {
+    countStars();
+    checksFilling();
   };
 
-  // var labelFieldsComment = document.querySelector('.review-fields-text');
-  // var labelFormControls = document.querySelector('.review-form-controls');
-  // labelFieldsComment.style.display = 'none';
-  // labelFormControls.style.display = 'none';
-  // if (textAreaComment.value === '' && textAreaComment.hasAttribute('required')) {
-  //   labelFieldsComment.style.display = 'inline';
-  // }
-  //
-  // if (inputName.value === '' || (textAreaComment.value === '' && textAreaComment.hasAttribute('required'))) {
-  //   labelFormControls.style.display = 'block';
-  //   buttonSubmit.classList.add('disabled');
-  // }
+  inputName.onchange = function() {
+    checksFilling();
+  };
+
+  textAreaComment.onchange = function() {
+    checksFilling();
+  };
 
   formCloseButton.onclick = function(evt) {
     evt.preventDefault();
