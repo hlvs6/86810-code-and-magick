@@ -69,26 +69,13 @@ window.form = (function() {
   countStars();
   checksFilling();
 
-  radioButtons[0].onchange = function() {
-    countStars();
-    checksFilling();
-  };
-  radioButtons[1].onchange = function() {
-    countStars();
-    checksFilling();
-  };
-  radioButtons[2].onchange = function() {
-    countStars();
-    checksFilling();
-  };
-  radioButtons[3].onchange = function() {
-    countStars();
-    checksFilling();
-  };
-  radioButtons[4].onchange = function() {
-    countStars();
-    checksFilling();
-  };
+  radioButtons.forEach(function(item) {
+
+    item.onchange = function() {
+      countStars();
+      checksFilling();
+    };
+  });
 
   inputName.onchange = function() {
     checksFilling();
