@@ -24,38 +24,76 @@ window.form = (function() {
     }
   };
 
-  var inputName = document.querySelector('input[name="review-name"]');
-  var textAreaComment = document.querySelector('#review-text');
-  var radioButtons = document.querySelectorAll('input[name="review-mark"]');
-  var reviewFieldsName = document.querySelector('review-fields-name');
-  var reviewFieldsComment = document.querySelector('review-form-field-text');
-  var reviewFormControls = document.querySelector('review-form-controls');
-  var buttonSubmit = document.querySelector('review-submit');
+  var inputName = document.querySelector('#review-name');
 
   inputName.setAttribute('required', 'required');
-  reviewFieldsName.style.display = 'none';
-  reviewFieldsComment.style.display = 'none';
-  reviewFormControls.style.display = 'none';
 
-  for ( var i = 0; i < radioButtons.length; i++) {
+  var buttonSubmit = document.querySelector('.review-submit');
 
-    if (radioButtons[i].hasAttribute('checked') && radioButtons[i].value < 3 ) {
-      textAreaComment.setAttribute('required', 'required');
+  var radioButtons = document.querySelectorAll('input[name="review-mark"]');
+  var textAreaComment = document.querySelector('#review-text');
+
+  function countStars () {
+    textAreaComment.removeAttribute('required', 'required');
+    for ( var i = 0; i < radioButtons.length; i++) {
+      if ((radioButtons[i].checked) && (radioButtons[i].value < 3)) {
+          textAreaComment.setAttribute('required', 'required');
+      }
     }
   }
 
-  if (inputName.value === '') {
-    reviewFieldsName.style.display = 'block';
+  countStars();
+
+  radioButtons[0].onchange = function () {
+    countStars();
+  };
+  radioButtons[1].onchange = function () {
+    countStars();
+  };
+  radioButtons[2].onchange = function () {
+    countStars();
+  };
+  radioButtons[3].onchange = function () {
+    countStars();
+  };
+  radioButtons[4].onchange = function () {
+    countStars();
+  };
+
+  var labelFieldsName = document.querySelector('.review-fields-name');
+
+  labelFieldsName.style.display = 'none';
+
+  function checksFilling () {
+
+    if (inputName.value === '') {
+      labelFieldsName.style.display = 'inline';
+    }
+
+    else {
+      labelFieldsName.style.display = 'none';
+    }
   }
 
-  if (textAreaComment.value === '' && textAreaComment.hasAttribute('required')) {
-    reviewFieldsComment.style.display = 'block';
-  }
+  checksFilling();
 
-  if (inputName.value === '' || (textAreaComment.value === '' && textAreaComment.hasAttribute('required'))) {
-    reviewFormControls.style.display = 'block';
-    buttonSubmit.classList.add('disabled');
-  }
+  inputName.onchange = function () {
+    checksFilling();
+    console.log('Победа');
+  };
+
+  // var labelFieldsComment = document.querySelector('.review-fields-text');
+  // var labelFormControls = document.querySelector('.review-form-controls');
+  // labelFieldsComment.style.display = 'none';
+  // labelFormControls.style.display = 'none';
+  // if (textAreaComment.value === '' && textAreaComment.hasAttribute('required')) {
+  //   labelFieldsComment.style.display = 'inline';
+  // }
+  //
+  // if (inputName.value === '' || (textAreaComment.value === '' && textAreaComment.hasAttribute('required'))) {
+  //   labelFormControls.style.display = 'block';
+  //   buttonSubmit.classList.add('disabled');
+  // }
 
   formCloseButton.onclick = function(evt) {
     evt.preventDefault();
