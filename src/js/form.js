@@ -30,9 +30,10 @@ window.form = (function() {
 
   var buttonSubmit = document.querySelector('.review-submit');
   var radioButtons = document.querySelectorAll('input[name="review-mark"]');
+  radioButtons = [].slice.call(radioButtons);
   var textAreaComment = document.querySelector('#review-text');
 
-  function countStars() {
+  function controlsStars() {
     textAreaComment.removeAttribute('required', 'required');
     for ( var i = 0; i < radioButtons.length; i++) {
       if ((radioButtons[i].checked) && (radioButtons[i].value < 3)) {
@@ -66,22 +67,22 @@ window.form = (function() {
     }
   }
 
-  countStars();
+  controlsStars();
   checksFilling();
 
   radioButtons.forEach(function(item) {
 
     item.onchange = function() {
-      countStars();
+      controlsStars();
       checksFilling();
     };
   });
 
-  inputName.onchange = function() {
+  inputName.oninput = function() {
     checksFilling();
   };
 
-  textAreaComment.onchange = function() {
+  textAreaComment.oninput = function() {
     checksFilling();
   };
 
