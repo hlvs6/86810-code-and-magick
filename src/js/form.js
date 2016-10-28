@@ -25,7 +25,10 @@ window.form = (function() {
   };
 
   var inputName = document.querySelector('#review-name');
-  inputName.value = window.Cookies.get('review-name');
+  var i = window.Cookies.get('review-name');
+  if ( i ) {
+    inputName.value = window.Cookies.get('review-name');
+  }
 
   inputName.setAttribute('required', 'required');
 
@@ -33,29 +36,29 @@ window.form = (function() {
   var radioButtons = document.querySelectorAll('input[name="review-mark"]');
   radioButtons = [].slice.call(radioButtons);
 
-  var i = window.Cookies.get('review-mark');
+  i = window.Cookies.get('review-mark');
   if ( i ) {
     radioButtons[i].setAttribute('checked', 'checked');
   }
 
   var dateNow = new Date();
-  var lastBirthdayGrace = new Date(2015, 11, 9);
+  var birthdayGrace = new Date(1970, 11, 9);
   var countingDays = function() {
-    var timestamp = dateNow.getTime() + (dateNow.getTime() - lastBirthdayGrace.getTime()) % (365 * 24 * 60 * 60 * 1000);
-    var dateExpires = new Date(timestamp);
-    return dateExpires;
+    var timestamp = dateNow.getTime() + (dateNow.getTime() - birthdayGrace.getTime()) % (365 * 24 * 60 * 60 * 1000);
+    return new Date(timestamp);
   }();
 
   var textAreaComment = document.querySelector('#review-text');
 
   function controlsStars() {
+    var cookieCountStars = 'review-mark';
     textAreaComment.removeAttribute('required', 'required');
     for ( i = 0; i < radioButtons.length; i++) {
       if ((radioButtons[i].checked) && (radioButtons[i].value < 3)) {
         textAreaComment.setAttribute('required', 'required');
       }
       if (radioButtons[i].checked) {
-        window.Cookies.set('review-mark', i, { expires: countingDays });
+        window.Cookies.set(cookieCountStars, i, { expires: countingDays });
       }
     }
   }
@@ -101,8 +104,9 @@ window.form = (function() {
   });
 
   inputName.oninput = function() {
+    var cookieName = 'review-name';
     checksFilling();
-    window.Cookies.set('review-name', inputName.value, { expires: countingDays });
+    window.Cookies.set(cookieName, inputName.value, { expires: countingDays });
   };
 
   textAreaComment.oninput = checksFilling;
