@@ -25,19 +25,22 @@ window.form = (function() {
   };
 
   var inputName = document.querySelector('#review-name');
-  inputName.value = Cookies.get('review-name');
+  inputName.value = window.Cookies.get('review-name');
 
   inputName.setAttribute('required', 'required');
 
   var buttonSubmit = document.querySelector('.review-submit');
   var radioButtons = document.querySelectorAll('input[name="review-mark"]');
   radioButtons = [].slice.call(radioButtons);
-  var i = Cookies.get('review-mark');
-  radioButtons[i].setAttribute('checked','checked');
+
+  var i = window.Cookies.get('review-mark');
+  if ( i ) {
+    radioButtons[i].setAttribute('checked', 'checked');
+  }
 
   var dateNow = new Date();
-  var lastBirthdayGrace = new Date(2015,11,9);
-  var countingDays = function(datenow,birthdayGrace){
+  var lastBirthdayGrace = new Date(2015, 11, 9);
+  var countingDays = function() {
     var timestamp = dateNow.getTime() + (dateNow.getTime() - lastBirthdayGrace.getTime()) % (365 * 24 * 60 * 60 * 1000);
     var dateExpires = new Date(timestamp);
     return dateExpires;
@@ -47,12 +50,12 @@ window.form = (function() {
 
   function controlsStars() {
     textAreaComment.removeAttribute('required', 'required');
-    for ( var i = 0; i < radioButtons.length; i++) {
+    for ( i = 0; i < radioButtons.length; i++) {
       if ((radioButtons[i].checked) && (radioButtons[i].value < 3)) {
         textAreaComment.setAttribute('required', 'required');
       }
       if (radioButtons[i].checked) {
-        Cookies.set('review-mark', i, { expires: countingDays });
+        window.Cookies.set('review-mark', i, { expires: countingDays });
       }
     }
   }
@@ -60,20 +63,24 @@ window.form = (function() {
   var labelFieldsName = document.querySelector('.review-fields-name');
   var labelFieldsComment = document.querySelector('.review-fields-text');
   var labelFormControls = document.querySelector('.review-fields');
+  var labelNameDefaultDisplay = labelFieldsName.style.display;
+  var labelCommentsDefaultDisplay = labelFieldsComment.style.display;
+  var labelFormControlsDisplay = labelFormControls.style.display;
+
 
   function checksFilling() {
 
     labelFieldsName.style.display = 'none';
     labelFieldsComment.style.display = 'none';
-    labelFormControls.style.display = 'inline-block';
+    labelFormControls.style.display = labelFormControlsDisplay;
     buttonSubmit.setAttribute('disabled', 'disabled');
 
     if (inputName.value === '') {
-      labelFieldsName.style.display = 'inline';
+      labelFieldsName.style.display = labelNameDefaultDisplay;
     }
 
     if ((textAreaComment.value === '') && (textAreaComment.hasAttribute('required'))) {
-      labelFieldsComment.style.display = 'inline';
+      labelFieldsComment.style.display = labelCommentsDefaultDisplay;
     }
 
     if ((inputName.value !== '') && ((textAreaComment.value !== '') || (textAreaComment.getAttribute('required') === null))) {
@@ -95,12 +102,10 @@ window.form = (function() {
 
   inputName.oninput = function() {
     checksFilling();
-    Cookies.set('review-name', inputName.value, { expires: countingDays });
+    window.Cookies.set('review-name', inputName.value, { expires: countingDays });
   };
 
-  textAreaComment.oninput = function() {
-    checksFilling();
-  };
+  textAreaComment.oninput = checksFilling;
 
   formCloseButton.onclick = function(evt) {
     evt.preventDefault();
