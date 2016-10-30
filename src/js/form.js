@@ -25,8 +25,9 @@ window.form = (function() {
   };
 
   var inputName = document.querySelector('#review-name');
-  var i = window.Cookies.get('review-name');
-  if ( i ) {
+  var cookieName = '';
+  var cookieReviewName = window.Cookies.get('review-name');
+  if ( cookieReviewName ) {
     inputName.value = window.Cookies.get('review-name');
   }
 
@@ -36,29 +37,33 @@ window.form = (function() {
   var radioButtons = document.querySelectorAll('input[name="review-mark"]');
   radioButtons = [].slice.call(radioButtons);
 
-  i = window.Cookies.get('review-mark');
-  if ( i ) {
-    radioButtons[i].setAttribute('checked', 'checked');
+  var index = window.Cookies.get('review-mark');
+  if ( index ) {
+    radioButtons[index].setAttribute('checked', 'checked');
   }
 
   var dateNow = new Date();
   var birthdayGrace = new Date(1970, 11, 9);
+  var difference = dateNow.getTime() - birthdayGrace.getTime();
+  var differenceDate = new Date(difference);
+  var yearLastBirthdayGrace = differenceDate.getFullYear();
+  var timestampLastBYears = new Date(yearLastBirthdayGrace, 0);
   var countingDays = function() {
-    var timestamp = dateNow.getTime() + (dateNow.getTime() - birthdayGrace.getTime()) % (365 * 24 * 60 * 60 * 1000);
+    var timestamp = dateNow.getTime() + (dateNow.getTime() - birthdayGrace.getTime() - timestampLastBYears.getTime());
     return new Date(timestamp);
   }();
 
   var textAreaComment = document.querySelector('#review-text');
 
   function controlsStars() {
-    var cookieCountStars = 'review-mark';
+    cookieName = 'review-mark';
     textAreaComment.removeAttribute('required', 'required');
-    for ( i = 0; i < radioButtons.length; i++) {
+    for ( var i = 0; i < radioButtons.length; i++) {
       if ((radioButtons[i].checked) && (radioButtons[i].value < 3)) {
         textAreaComment.setAttribute('required', 'required');
       }
       if (radioButtons[i].checked) {
-        window.Cookies.set(cookieCountStars, i, { expires: countingDays });
+        window.Cookies.set(cookieName, i, { expires: countingDays });
       }
     }
   }
@@ -104,7 +109,7 @@ window.form = (function() {
   });
 
   inputName.oninput = function() {
-    var cookieName = 'review-name';
+    cookieName = 'review-name';
     checksFilling();
     window.Cookies.set(cookieName, inputName.value, { expires: countingDays });
   };
