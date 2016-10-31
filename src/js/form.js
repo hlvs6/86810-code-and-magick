@@ -1,5 +1,8 @@
 'use strict';
 
+var cookieName = 'review-name';
+var cookieStars = 'review-mark';
+
 window.form = (function() {
   var formContainer = document.querySelector('.overlay-container');
   var formCloseButton = document.querySelector('.review-form-close');
@@ -25,10 +28,9 @@ window.form = (function() {
   };
 
   var inputName = document.querySelector('#review-name');
-  var cookieName = '';
-  var cookieReviewName = window.Cookies.get('review-name');
+  var cookieReviewName = window.Cookies.get(cookieName);
   if ( cookieReviewName ) {
-    inputName.value = window.Cookies.get('review-name');
+    inputName.value = window.Cookies.get(cookieName);
   }
 
   inputName.setAttribute('required', 'required');
@@ -37,33 +39,32 @@ window.form = (function() {
   var radioButtons = document.querySelectorAll('input[name="review-mark"]');
   radioButtons = [].slice.call(radioButtons);
 
-  var index = window.Cookies.get('review-mark');
+  var index = window.Cookies.get(cookieStars);
   if ( index ) {
     radioButtons[index].setAttribute('checked', 'checked');
   }
 
   var dateNow = new Date();
-  var birthdayGrace = new Date(1970, 11, 9);
-  var difference = dateNow.getTime() - birthdayGrace.getTime();
-  var differenceDate = new Date(difference);
-  var yearLastBirthdayGrace = differenceDate.getFullYear();
-  var timestampLastBYears = new Date(yearLastBirthdayGrace, 0);
+  var birthdayGrace = new Date(dateNow.getFullYear(), 11, 9);
+  if ((dateNow.getTime() - birthdayGrace.getTime()) < 0) {
+    birthdayGrace.setFullYear(birthdayGrace.getFullYear() - 1);
+  }
+
   var countingDays = function() {
-    var timestamp = dateNow.getTime() + (dateNow.getTime() - birthdayGrace.getTime() - timestampLastBYears.getTime());
-    return new Date(timestamp);
+    var timestamp = dateNow.getTime() - birthdayGrace.getTime();
+    return timestamp / (24 * 60 * 60 * 1000);
   }();
 
   var textAreaComment = document.querySelector('#review-text');
 
   function controlsStars() {
-    cookieName = 'review-mark';
     textAreaComment.removeAttribute('required', 'required');
     for ( var i = 0; i < radioButtons.length; i++) {
       if ((radioButtons[i].checked) && (radioButtons[i].value < 3)) {
         textAreaComment.setAttribute('required', 'required');
       }
       if (radioButtons[i].checked) {
-        window.Cookies.set(cookieName, i, { expires: countingDays });
+        window.Cookies.set(cookieStars, i, { expires: countingDays });
       }
     }
   }
@@ -109,7 +110,6 @@ window.form = (function() {
   });
 
   inputName.oninput = function() {
-    cookieName = 'review-name';
     checksFilling();
     window.Cookies.set(cookieName, inputName.value, { expires: countingDays });
   };
