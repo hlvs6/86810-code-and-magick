@@ -137,31 +137,40 @@ var reviews = [{
   "rating": 5,
   "description": "Игра очень интересная. Нравится возможность выбирать между героями, а самое крутое, что есть альтернативные концовки в игре. Она точно стоит своих денег."
 }];
+var selectorFilter = '.reviews-filter';
+var selectorListComment = '.reviews-list';
+var selectorWrapperComment = '#review-template';
+var selectorArticle = '.review';
+var selectorPhotoAuthor = '.review-author';
+var selectorRatingStars = '.review-rating';
+var selectorCommentDescription = '.review-text';
+var clsInvisible = 'invisible';
+var clsError = 'review-load-failure';
 
-var blockFilters = document.querySelector('.reviews-filter');
-blockFilters.classList.add('invisible');
+var blockFilters = document.querySelector(selectorFilter);
+blockFilters.classList.add(clsInvisible);
 
-var templateCommentContainer = document.querySelector('#review-template');
+var templateCommentContainer = document.querySelector(selectorWrapperComment);
 var templateComment = 'content' in templateCommentContainer ? templateCommentContainer.content : templateCommentContainer;
-var listComments = document.querySelector('.reviews-list');
+var listComments = document.querySelector(selectorListComment);
 
 var getCommentElement = function(review) {
-  var comment = templateComment.querySelector('.review').cloneNode('true');
-  var image = comment.querySelector('.review-author');
+  var comment = templateComment.querySelector(selectorArticle).cloneNode(true);
+  var image = comment.querySelector(selectorPhotoAuthor);
   image.title = review.author.name;
-  comment.querySelector('.review-rating').setAttribute('data-stars', review.rating);
-  comment.querySelector('.review-text').textContent = review.description;
+  comment.querySelector(selectorRatingStars).textContent = review.rating;
+  comment.querySelector(selectorCommentDescription).textContent = review.description;
 
   var photoUser = new Image();
 
   photoUser.onload = function() {
     image.setAttribute('src', review.author.picture);
-    image.setAttribute('width', 124);
-    image.setAttribute('height', 124);
+    image.width = 124;
+    image.height = 124;
   };
 
   photoUser.onerror = function() {
-    comment.classList.add('review-load-failure');
+    comment.classList.add(clsError);
   };
 
   photoUser.src = review.author.picture;
@@ -176,4 +185,4 @@ var renderComment = function() {
 
 renderComment(reviews);
 
-blockFilters.classList.remove('invisible');
+blockFilters.classList.remove(clsInvisible);
