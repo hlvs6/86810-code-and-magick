@@ -175,3 +175,5 @@ var renderComment = function() {
 };
 
 renderComment(reviews);
+
+blockFilters.classList.remove('invisible');
