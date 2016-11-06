@@ -1,17 +1,20 @@
 'use strict';
 
-var COMMENT_LOAD_URL = 'http://localhost:1507/api/reviews?callback=__jsonpCallback';
-var load = function(url, jsonpCallback) {
-  window[jsonpCallback] = function(data) {
-    window.reviews = data;
+var COMMENT_LOAD_URL = 'http://localhost:1507/api/reviews';
+var callBackName = 'jsonpCallback';
+var massiveName = 'reviews';
+var loadReviews = function(url, callback) {
+  window[callBackName] = function(data) {
+    window[massiveName] = data;
+    callback(data);
   };
 
   var script = document.createElement('script');
-  script.src = url;
+  script.src = url + '?callback=' + callBackName;
   document.body.appendChild(script);
 };
 
-load(COMMENT_LOAD_URL, '__jsonpCallback');
+loadReviews(COMMENT_LOAD_URL, function(data) {  console.log(reviews[2].description) });
 
 var reviews = [{
   "author": {
