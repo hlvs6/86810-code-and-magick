@@ -14,7 +14,6 @@ var loadReviews = function(url, callback) {
   script.src = url + '?callback=' + callBackName;
   document.body.appendChild(script);
 
-
   script.onload = function() {
 
     callback(window[massiveName]);
@@ -26,55 +25,55 @@ var loadReviews = function(url, callback) {
   };
 };
 
-loadReviews(COMMENT_LOAD_URL, function(data) {
+loadReviews(COMMENT_LOAD_URL, function() {
 
-var selectorFilter = '.reviews-filter';
-var selectorListComment = '.reviews-list';
-var selectorWrapperComment = '#review-template';
-var selectorArticle = '.review';
-var selectorPhotoAuthor = '.review-author';
-var selectorRatingStars = '.review-rating';
-var selectorCommentDescription = '.review-text';
-var clsInvisible = 'invisible';
-var clsError = 'review-load-failure';
+  var selectorFilter = '.reviews-filter';
+  var selectorListComment = '.reviews-list';
+  var selectorWrapperComment = '#review-template';
+  var selectorArticle = '.review';
+  var selectorPhotoAuthor = '.review-author';
+  var selectorRatingStars = '.review-rating';
+  var selectorCommentDescription = '.review-text';
+  var clsInvisible = 'invisible';
+  var clsError = 'review-load-failure';
 
-var blockFilters = document.querySelector(selectorFilter);
-blockFilters.classList.add(clsInvisible);
+  var blockFilters = document.querySelector(selectorFilter);
+  blockFilters.classList.add(clsInvisible);
 
-var templateCommentContainer = document.querySelector(selectorWrapperComment);
-var templateComment = 'content' in templateCommentContainer ? templateCommentContainer.content : templateCommentContainer;
-var listComments = document.querySelector(selectorListComment);
+  var templateCommentContainer = document.querySelector(selectorWrapperComment);
+  var templateComment = 'content' in templateCommentContainer ? templateCommentContainer.content : templateCommentContainer;
+  var listComments = document.querySelector(selectorListComment);
 
-var getCommentElement = function(review) {
-  var comment = templateComment.querySelector(selectorArticle).cloneNode(true);
-  var image = comment.querySelector(selectorPhotoAuthor);
-  image.title = review.author.name;
-  comment.querySelector(selectorRatingStars).textContent = review.rating;
-  comment.querySelector(selectorCommentDescription).textContent = review.description;
+  var getCommentElement = function() {
+    var comment = templateComment.querySelector(selectorArticle).cloneNode(true);
+    var image = comment.querySelector(selectorPhotoAuthor);
+    image.title = review.author.name;
+    comment.querySelector(selectorRatingStars).textContent = review.rating;
+    comment.querySelector(selectorCommentDescription).textContent = review.description;
 
-  var photoUser = new Image();
+    var photoUser = new Image();
 
-  photoUser.onload = function() {
-    image.setAttribute('src', review.author.picture);
-    image.width = 124;
-    image.height = 124;
+    photoUser.onload = function() {
+      image.setAttribute('src', review.author.picture);
+      image.width = 124;
+      image.height = 124;
+    };
+
+    photoUser.onerror = function() {
+      comment.classList.add(clsError);
+    };
+
+    photoUser.src = review.author.picture;
+    return comment;
   };
 
-  photoUser.onerror = function() {
-    comment.classList.add(clsError);
+  var renderComment = function() {
+    reviews.forEach(function() {
+      listComments.appendChild(getCommentElement(review));
+    });
   };
 
-  photoUser.src = review.author.picture;
-  return comment;
-};
+  renderComment(reviews);
 
-var renderComment = function() {
-  reviews.forEach(function(review) {
-    listComments.appendChild(getCommentElement(review));
-  });
-};
-
-renderComment(reviews);
-
-blockFilters.classList.remove(clsInvisible);
+  blockFilters.classList.remove(clsInvisible);
 });
