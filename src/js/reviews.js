@@ -25,7 +25,7 @@ var loadReviews = function(url, callback) {
   };
 };
 
-loadReviews(COMMENT_LOAD_URL, function() {
+loadReviews(COMMENT_LOAD_URL, function(data) {
 
   var selectorFilter = '.reviews-filter';
   var selectorListComment = '.reviews-list';
@@ -44,7 +44,7 @@ loadReviews(COMMENT_LOAD_URL, function() {
   var templateComment = 'content' in templateCommentContainer ? templateCommentContainer.content : templateCommentContainer;
   var listComments = document.querySelector(selectorListComment);
 
-  var getCommentElement = function() {
+  var getCommentElement = function(review) {
     var comment = templateComment.querySelector(selectorArticle).cloneNode(true);
     var image = comment.querySelector(selectorPhotoAuthor);
     image.title = review.author.name;
@@ -67,13 +67,13 @@ loadReviews(COMMENT_LOAD_URL, function() {
     return comment;
   };
 
-  var renderComment = function() {
-    reviews.forEach(function() {
+  var renderComments = function(reviews) {
+    reviews.forEach(function(review) {
       listComments.appendChild(getCommentElement(review));
     });
   };
 
-  renderComment(reviews);
+  renderComments(data);
 
   blockFilters.classList.remove(clsInvisible);
 });
