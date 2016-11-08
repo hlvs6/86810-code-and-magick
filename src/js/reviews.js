@@ -1,79 +1,56 @@
 'use strict';
+define(['./loadmassive'], function(loadmassive) {
 
-var COMMENT_LOAD_URL = 'http://localhost:1507/api/reviews';
-var callBackName = 'jsonpCallback';
-var massiveName = 'reviews';
+  loadReviews(COMMENT_LOAD_URL, function(data) {
 
-window[callBackName] = function(data) {
-  window[massiveName] = data;
-};
+    var selectorFilter = '.reviews-filter';
+    var selectorListComment = '.reviews-list';
+    var selectorWrapperComment = '#review-template';
+    var selectorArticle = '.review';
+    var selectorPhotoAuthor = '.review-author';
+    var selectorRatingStars = '.review-rating';
+    var selectorCommentDescription = '.review-text';
+    var clsInvisible = 'invisible';
+    var clsError = 'review-load-failure';
 
-var loadReviews = function(url, callback) {
+    var blockFilters = document.querySelector(selectorFilter);
+    blockFilters.classList.add(clsInvisible);
 
-  var script = document.createElement('script');
-  script.src = url + '?callback=' + callBackName;
-  document.body.appendChild(script);
+    var templateCommentContainer = document.querySelector(selectorWrapperComment);
+    var templateComment = 'content' in templateCommentContainer ? templateCommentContainer.content : templateCommentContainer;
+    var listComments = document.querySelector(selectorListComment);
 
-  script.onload = function() {
+    var getCommentElement = function(review) {
+      var comment = templateComment.querySelector(selectorArticle).cloneNode(true);
+      var image = comment.querySelector(selectorPhotoAuthor);
+      image.title = review.author.name;
+      comment.querySelector(selectorRatingStars).textContent = review.rating;
+      comment.querySelector(selectorCommentDescription).textContent = review.description;
 
-    callback(window[massiveName]);
-  };
+      var photoUser = new Image();
 
-  script.onerror = function() {
+      photoUser.onload = function() {
+        image.setAttribute('src', review.author.picture);
+        image.width = 124;
+        image.height = 124;
+      };
 
-    console.warn('Ошибка!');
-  };
-};
+      photoUser.onerror = function() {
+        comment.classList.add(clsError);
+      };
 
-loadReviews(COMMENT_LOAD_URL, function(data) {
-
-  var selectorFilter = '.reviews-filter';
-  var selectorListComment = '.reviews-list';
-  var selectorWrapperComment = '#review-template';
-  var selectorArticle = '.review';
-  var selectorPhotoAuthor = '.review-author';
-  var selectorRatingStars = '.review-rating';
-  var selectorCommentDescription = '.review-text';
-  var clsInvisible = 'invisible';
-  var clsError = 'review-load-failure';
-
-  var blockFilters = document.querySelector(selectorFilter);
-  blockFilters.classList.add(clsInvisible);
-
-  var templateCommentContainer = document.querySelector(selectorWrapperComment);
-  var templateComment = 'content' in templateCommentContainer ? templateCommentContainer.content : templateCommentContainer;
-  var listComments = document.querySelector(selectorListComment);
-
-  var getCommentElement = function(review) {
-    var comment = templateComment.querySelector(selectorArticle).cloneNode(true);
-    var image = comment.querySelector(selectorPhotoAuthor);
-    image.title = review.author.name;
-    comment.querySelector(selectorRatingStars).textContent = review.rating;
-    comment.querySelector(selectorCommentDescription).textContent = review.description;
-
-    var photoUser = new Image();
-
-    photoUser.onload = function() {
-      image.setAttribute('src', review.author.picture);
-      image.width = 124;
-      image.height = 124;
+      photoUser.src = review.author.picture;
+      return comment;
     };
 
-    photoUser.onerror = function() {
-      comment.classList.add(clsError);
+    var renderComments = function(reviews) {
+      reviews.forEach(function(review) {
+        listComments.appendChild(getCommentElement(review));
+      });
     };
 
-    photoUser.src = review.author.picture;
-    return comment;
-  };
+    renderComments(data);
 
-  var renderComments = function(reviews) {
-    reviews.forEach(function(review) {
-      listComments.appendChild(getCommentElement(review));
-    });
-  };
-
-  renderComments(data);
-
-  blockFilters.classList.remove(clsInvisible);
+    blockFilters.classList.remove(clsInvisible);
+  });
 });
