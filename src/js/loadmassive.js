@@ -1,7 +1,6 @@
 'use strict';
 define([], function() {
 
-  var COMMENT_LOAD_URL = 'http://localhost:1507/api/reviews';
   var callBackName = 'jsonpCallback';
   var massiveName = 'reviews';
 
@@ -26,5 +25,5 @@ define([], function() {
     };
   };
 
-  return loadReviews; 
+  return loadReviews;
 });
