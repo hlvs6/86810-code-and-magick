@@ -261,19 +261,20 @@ define([], function() {
      * @constructor
      */
     var Game = function(container) {
-      this.container = container;
-      this.canvas = document.createElement('canvas');
-      this.canvas.width = container.clientWidth;
-      this.canvas.height = container.clientHeight;
-      this.container.appendChild(this.canvas);
+      var self = this;
+      self.container = container;
+      self.canvas = document.createElement('canvas');
+      self.canvas.width = container.clientWidth;
+      self.canvas.height = container.clientHeight;
+      self.container.appendChild(this.canvas);
 
-      this.ctx = this.canvas.getContext('2d');
+      self.ctx = this.canvas.getContext('2d');
 
-      this._onKeyDown = this._onKeyDown.bind(this);
-      this._onKeyUp = this._onKeyUp.bind(this);
-      this._pauseListener = this._pauseListener.bind(this);
+      self._onKeyDown = this._onKeyDown.bind(this);
+      self._onKeyUp = this._onKeyUp.bind(this);
+      self._pauseListener = this._pauseListener.bind(this);
 
-      this.setDeactivated(false);
+      self.setDeactivated(false);
     };
 
     Game.prototype = {
