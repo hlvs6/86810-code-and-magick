@@ -1,6 +1,6 @@
 'use strict';
 
-(function() {
+require(['./reviews', './form', './game'], function() {
   var game = new window.Game(document.querySelector('.demo'));
   game.initializeLevelAndStart();
   game.setGameStatus(window.Game.Verdict.INTRO);
@@ -20,4 +20,4 @@
   window.form.onClose = function() {
     game.setDeactivated(false);
   };
-})();
+});
