@@ -16,13 +16,33 @@ define([], function() {
   Gallery.prototype = {
     show: function(number) {
       Gallery.overlayGallery.classList.remove('invisible');
+      Gallery.prototype.setActivePicture(number);
+
       Gallery.closeElement.onclick = function() {
         Gallery.prototype.hide();
       };
-      Gallery.prototype.setActivePicture(number);
+
+      Gallery.controlLeft.onclick = function() {
+        var numberImagePreviews = Gallery.activePicture - 1;
+        if ( numberImagePreviews >= 0) {
+          Gallery.activePicture = numberImagePreviews;
+          Gallery.prototype.setActivePicture(numberImagePreviews);
+        }
+      };
+
+      Gallery.controlRight.onclick = function() {
+        var numberImageNext = Gallery.activePicture + 1;
+        if ( numberImageNext < Gallery.pictures.length) {
+          Gallery.activePicture = numberImageNext;
+          Gallery.prototype.setActivePicture(numberImageNext);
+        }
+      };
     },
     hide: function() {
       Gallery.overlayGallery.classList.add('invisible');
+      Gallery.closeElement.onclick = null;
+      Gallery.controlLeft.onclick = null;
+      Gallery.controlRight.onclick = null;
     },
 
     setActivePicture: function(number) {
@@ -32,14 +52,14 @@ define([], function() {
           var activePicture = new Image();
           activePicture.setAttribute('src', Gallery.pictures[i]);
           var galleryPreview = document.querySelector('.overlay-gallery-preview');
-          if (galleryPreview.content !== '') {
-
-            galleryPreview.innerHTML ='';
+          var galleryImage = galleryPreview.querySelector('img');
+          if (galleryPreview.contains(galleryImage)) {
+            galleryPreview.removeChild(galleryImage);
           }
           galleryPreview.appendChild(activePicture);
         }
       };
-      Gallery.currentImage.innerHTML = Gallery.activePicture;
+      Gallery.currentImage.innerHTML = Gallery.activePicture + 1;
     }
   };
 
