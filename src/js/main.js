@@ -1,6 +1,6 @@
 'use strict';
 
-require(['./reviews', './form', './game'], function() {
+require(['./reviews', './form', './game', './gallery'], function() {
   var game = new window.Game(document.querySelector('.demo'));
   game.initializeLevelAndStart();
   game.setGameStatus(window.Game.Verdict.INTRO);
