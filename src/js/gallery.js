@@ -3,6 +3,8 @@ define([], function() {
 
   var Gallery = function(massive) {
 
+    this.color = 'red';
+    this.red = 'blue';
     Gallery.pictures = massive;
     Gallery.activePicture = null;
     Gallery.overlayGallery = document.querySelector('.overlay-gallery');
@@ -15,14 +17,16 @@ define([], function() {
 
   Gallery.prototype = {
     show: function(number) {
+      var self = this;
       Gallery.overlayGallery.classList.remove('invisible');
       Gallery.prototype.setActivePicture(number);
-
+      console.log(this.color);
       Gallery.closeElement.onclick = function() {
         Gallery.prototype.hide();
       };
 
       Gallery.controlLeft.onclick = function() {
+        console.log(self.red);
         var numberImagePreviews = Gallery.activePicture - 1;
         if ( numberImagePreviews >= 0) {
           Gallery.activePicture = numberImagePreviews;
@@ -31,6 +35,7 @@ define([], function() {
       };
 
       Gallery.controlRight.onclick = function() {
+        console.log(self.red);
         var numberImageNext = Gallery.activePicture + 1;
         if ( numberImageNext < Gallery.pictures.length) {
           Gallery.activePicture = numberImageNext;
@@ -46,6 +51,8 @@ define([], function() {
     },
 
     setActivePicture: function(number) {
+      // var self = this;
+      console.log(self.red);
       Gallery.activePicture = number;
       for (var i = 0; i < Gallery.pictures.length; i++) {
         if (i === number) {
@@ -62,7 +69,5 @@ define([], function() {
       Gallery.currentImage.innerHTML = Gallery.activePicture + 1;
     }
   };
-
-  var myGallery = new Gallery(['../img/screenshots/1.png','../img/screenshots/2.png','../img/screenshots/3.png']);
-  myGallery.show(2);
+  return Gallery;
 });
