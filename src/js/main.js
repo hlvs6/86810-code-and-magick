@@ -1,6 +1,7 @@
 'use strict';
 
-require(['./reviews', './form', './game', './gallery'], function(a, b, c, Gallery) {
+require(['./gallery', './reviews', './form', './game'], function() {
+  var Gallery = arguments[0];
   var galleryImages = document.querySelectorAll('.photogallery-image img');
   var srcImages = [];
   galleryImages.forEach( function(item) {
