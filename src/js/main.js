@@ -4,7 +4,7 @@ require(['./reviews', './form', './game', './gallery'], function(a, b, c, Galler
   var galleryImages = document.querySelectorAll('.photogallery-image img');
   var srcImages = [];
   galleryImages.forEach( function(item) {
-     srcImages.push(item.src);
+    srcImages.push(item.src);
   });
   var gallery = new Gallery(srcImages);
   gallery.show(1);

@@ -2,62 +2,56 @@
 define([], function() {
 
   var Gallery = function(massive) {
-
-    this.color = 'red';
-    this.red = 'blue';
-    Gallery.pictures = massive;
-    Gallery.activePicture = null;
-    Gallery.overlayGallery = document.querySelector('.overlay-gallery');
-    Gallery.controlLeft = document.querySelector('.overlay-gallery-control-left');
-    Gallery.controlRight = document.querySelector('.overlay-gallery-control-right');
-    Gallery.currentImage = document.querySelector('.preview-number-current');
-    Gallery.numberImage = document.querySelector('.preview-number-total');
-    Gallery.closeElement = document.querySelector('.overlay-gallery-close');
+    this.pictures = massive;
+    this.numberImages = massive.length;
+    this.spanNumberImage = document.querySelector('.preview-number-total');
+    this.activePicture = null;
+    this.overlayGallery = document.querySelector('.overlay-gallery');
+    this.controlLeft = document.querySelector('.overlay-gallery-control-left');
+    this.controlRight = document.querySelector('.overlay-gallery-control-right');
+    this.spanNumberCurrentImage = document.querySelector('.preview-number-current');
+    this.spanNumberImages = document.querySelector('.preview-number-total');
+    this.closeElement = document.querySelector('.overlay-gallery-close');
   };
 
   Gallery.prototype = {
     show: function(number) {
       var self = this;
-      Gallery.overlayGallery.classList.remove('invisible');
-      Gallery.prototype.setActivePicture(number);
-      console.log(this.color);
-      Gallery.closeElement.onclick = function() {
-        Gallery.prototype.hide();
+      this.overlayGallery.classList.remove('invisible');
+      this.setActivePicture(number);
+      this.closeElement.onclick = function() {
+        self.hide();
       };
 
-      Gallery.controlLeft.onclick = function() {
-        console.log(self.red);
-        var numberImagePreviews = Gallery.activePicture - 1;
+      this.controlLeft.onclick = function() {
+        var numberImagePreviews = self.activePicture - 1;
         if ( numberImagePreviews >= 0) {
-          Gallery.activePicture = numberImagePreviews;
+          self.activePicture = numberImagePreviews;
           self.setActivePicture(numberImagePreviews);
         }
       };
 
-      Gallery.controlRight.onclick = function() {
-        console.log(self.red);
-        var numberImageNext = Gallery.activePicture + 1;
-        if ( numberImageNext < Gallery.pictures.length) {
-          Gallery.activePicture = numberImageNext;
+      this.controlRight.onclick = function() {
+        var numberImageNext = self.activePicture + 1;
+        if ( numberImageNext < self.numberImages) {
+          self.activePicture = numberImageNext;
           self.setActivePicture(numberImageNext);
         }
       };
     },
     hide: function() {
-      Gallery.overlayGallery.classList.add('invisible');
-      Gallery.closeElement.onclick = null;
-      Gallery.controlLeft.onclick = null;
-      Gallery.controlRight.onclick = null;
+      this.overlayGallery.classList.add('invisible');
+      this.closeElement.onclick = null;
+      this.controlLeft.onclick = null;
+      this.controlRight.onclick = null;
     },
 
     setActivePicture: function(number) {
-      var self = this;
-      console.log(self.red);
-      Gallery.activePicture = number;
-      for (var i = 0; i < Gallery.pictures.length; i++) {
+      this.activePicture = number;
+      for (var i = 0; i < this.numberImages; i++) {
         if (i === number) {
           var activePicture = new Image();
-          activePicture.setAttribute('src', Gallery.pictures[i]);
+          activePicture.setAttribute('src', this.pictures[i]);
           var galleryPreview = document.querySelector('.overlay-gallery-preview');
           var galleryImage = galleryPreview.querySelector('img');
           if (galleryPreview.contains(galleryImage)) {
@@ -65,8 +59,9 @@ define([], function() {
           }
           galleryPreview.appendChild(activePicture);
         }
-      };
-      Gallery.currentImage.innerHTML = Gallery.activePicture + 1;
+      }
+      this.spanNumberCurrentImage.innerHTML = this.activePicture + 1;
+      this.spanNumberImages.innerHTML = this.numberImages;
     }
   };
   return Gallery;
