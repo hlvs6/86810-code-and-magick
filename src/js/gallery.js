@@ -30,7 +30,7 @@ define([], function() {
         var numberImagePreviews = Gallery.activePicture - 1;
         if ( numberImagePreviews >= 0) {
           Gallery.activePicture = numberImagePreviews;
-          Gallery.prototype.setActivePicture(numberImagePreviews);
+          self.setActivePicture(numberImagePreviews);
         }
       };
 
@@ -39,7 +39,7 @@ define([], function() {
         var numberImageNext = Gallery.activePicture + 1;
         if ( numberImageNext < Gallery.pictures.length) {
           Gallery.activePicture = numberImageNext;
-          Gallery.prototype.setActivePicture(numberImageNext);
+          self.setActivePicture(numberImageNext);
         }
       };
     },
@@ -51,7 +51,7 @@ define([], function() {
     },
 
     setActivePicture: function(number) {
-      // var self = this;
+      var self = this;
       console.log(self.red);
       Gallery.activePicture = number;
       for (var i = 0; i < Gallery.pictures.length; i++) {
