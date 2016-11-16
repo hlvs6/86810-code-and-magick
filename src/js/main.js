@@ -1,6 +1,26 @@
 'use strict';
 
-require(['./reviews', './form', './game'], function() {
+require(['./gallery', './reviews', './form', './game'], function(Gallery) {
+  var galleryImages = document.querySelectorAll('.photogallery-image img');
+  galleryImages = [].slice.call(galleryImages);
+  var srcImages = [];
+  galleryImages.forEach( function(item) {
+    srcImages.push(item.src);
+  });
+  var gallery = new Gallery(srcImages);
+  var wrapperGallery = document.querySelector('.photogallery');
+  var clicker = function(evt) {
+    var elementClicked = evt.target;
+    var elementSrc = elementClicked.src;
+    for (var i = 0; i < srcImages.length; i++) {
+      if ( elementSrc === srcImages[i]) {
+        gallery.show(i);
+      }
+    }
+  };
+
+  wrapperGallery.addEventListener('click', clicker);
+
   var game = new window.Game(document.querySelector('.demo'));
   game.initializeLevelAndStart();
   game.setGameStatus(window.Game.Verdict.INTRO);
