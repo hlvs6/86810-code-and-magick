@@ -1,10 +1,11 @@
 'use strict';
 define([], function() {
 
+  var clsInvisible = 'invisible';
+
   var Gallery = function(massive) {
     this.pictures = massive;
     this.numberImages = massive.length;
-    this.spanNumberImage = document.querySelector('.preview-number-total');
     this.activePicture = null;
     this.overlayGallery = document.querySelector('.overlay-gallery');
     this.controlLeft = document.querySelector('.overlay-gallery-control-left');
@@ -12,12 +13,13 @@ define([], function() {
     this.spanNumberCurrentImage = document.querySelector('.preview-number-current');
     this.spanNumberImages = document.querySelector('.preview-number-total');
     this.closeElement = document.querySelector('.overlay-gallery-close');
+    this.galleryOverlay = document.querySelector('.overlay-gallery-preview');
   };
 
   Gallery.prototype = {
     show: function(number) {
       var self = this;
-      this.overlayGallery.classList.remove('invisible');
+      this.overlayGallery.classList.remove(clsInvisible);
       this.setActivePicture(number);
       this.closeElement.onclick = function() {
         self.hide();
@@ -40,7 +42,7 @@ define([], function() {
       };
     },
     hide: function() {
-      this.overlayGallery.classList.add('invisible');
+      this.overlayGallery.classList.add(clsInvisible);
       this.closeElement.onclick = null;
       this.controlLeft.onclick = null;
       this.controlRight.onclick = null;
@@ -48,18 +50,13 @@ define([], function() {
 
     setActivePicture: function(number) {
       this.activePicture = number;
-      for (var i = 0; i < this.numberImages; i++) {
-        if (i === number) {
-          var activePicture = new Image();
-          activePicture.setAttribute('src', this.pictures[i]);
-          var galleryPreview = document.querySelector('.overlay-gallery-preview');
-          var galleryImage = galleryPreview.querySelector('img');
-          if (galleryPreview.contains(galleryImage)) {
-            galleryPreview.removeChild(galleryImage);
-          }
-          galleryPreview.appendChild(activePicture);
-        }
+      var activePicture = new Image();
+      activePicture.setAttribute('src', this.pictures[this.activePicture]);
+      var galleryImage = this.galleryOverlay.querySelector('img');
+      if (this.galleryOverlay.contains(galleryImage)) {
+        this.galleryOverlay.removeChild(galleryImage);
       }
+      this.galleryOverlay.appendChild(activePicture);
       this.spanNumberCurrentImage.innerHTML = this.activePicture + 1;
       this.spanNumberImages.innerHTML = this.numberImages;
     }

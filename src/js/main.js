@@ -3,6 +3,7 @@
 require(['./gallery', './reviews', './form', './game'], function() {
   var Gallery = arguments[0];
   var galleryImages = document.querySelectorAll('.photogallery-image img');
+  galleryImages = [].slice.call(galleryImages);
   var srcImages = [];
   galleryImages.forEach( function(item) {
     srcImages.push(item.src);
@@ -14,10 +15,9 @@ require(['./gallery', './reviews', './form', './game'], function() {
     var elementSrc = elementClicked.src;
     for (var i = 0; i < srcImages.length; i++) {
       if ( elementSrc === srcImages[i]) {
-        gallery.activePicture = i;
+        gallery.show(i);
       }
     }
-    gallery.show(gallery.activePicture);
   };
 
   wrapperGallery.addEventListener('click', clicker);
