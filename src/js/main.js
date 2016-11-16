@@ -1,7 +1,6 @@
 'use strict';
 
-require(['./gallery', './reviews', './form', './game'], function() {
-  var Gallery = arguments[0];
+require(['./gallery', './reviews', './form', './game'], function(Gallery) {
   var galleryImages = document.querySelectorAll('.photogallery-image img');
   galleryImages = [].slice.call(galleryImages);
   var srcImages = [];
