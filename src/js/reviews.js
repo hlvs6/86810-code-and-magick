@@ -1,5 +1,5 @@
 'use strict';
-define(['./loadmassive', './getComment'], function(loadReviews, getComment) {
+define(['./loadmassive', './getComment'], function(loadReviews, Review) {
 
   var COMMENT_LOAD_URL = 'http://localhost:1507/api/reviews';
   var selectorListComment = '.reviews-list';
@@ -11,13 +11,12 @@ define(['./loadmassive', './getComment'], function(loadReviews, getComment) {
     var clsInvisible = 'invisible';
     blockFilters.classList.add(clsInvisible);
 
-    var renderComments = function(reviews) {
-      reviews.forEach(function(review) {
-        listComments.appendChild(getComment(review));
-      });
-    };
-
-    renderComments(data);
+    data.forEach( function(item) {
+      var comment = new Review(item);
+      comment.addInfoOnTemplate();
+      comment.addHandlerClick();
+      listComments.appendChild(comment.element);
+    });
 
     blockFilters.classList.remove(clsInvisible);
   });

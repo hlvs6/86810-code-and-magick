@@ -13,8 +13,10 @@ require(['./gallery', './reviews', './form', './game'], function(Gallery) {
     var elementClicked = evt.target;
     var elementSrc = elementClicked.src;
     for (var i = 0; i < srcImages.length; i++) {
-      if ( elementSrc === srcImages[i]) {
-        gallery.show(i);
+      if ( elementClicked.tagName === 'IMG' ) {
+        if ( elementSrc === srcImages[i]) {
+          gallery.show(i);
+        }
       }
     }
   };

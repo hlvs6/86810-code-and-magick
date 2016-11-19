@@ -9,30 +9,60 @@ define([], function() {
   var clsError = 'review-load-failure';
   var templateCommentContainer = document.querySelector(selectorWrapperComment);
   var templateComment = 'content' in templateCommentContainer ? templateCommentContainer.content : templateCommentContainer;
+  var selectorBlockQuiz = '.review-quiz';
+  var selectorRatingReview = '.review-quiz-answer';
+  var clsRatingReviewActive = 'review-quiz-answer-active';
 
-
-  var getCommentElement = function(review) {
-    var comment = templateComment.querySelector(selectorArticle).cloneNode(true);
-    var image = comment.querySelector(selectorPhotoAuthor);
-    image.title = review.author.name;
-    comment.querySelector(selectorRatingStars).textContent = review.rating;
-    comment.querySelector(selectorCommentDescription).textContent = review.description;
-
-    var photoUser = new Image();
-
-    photoUser.onload = function() {
-      image.setAttribute('src', review.author.picture);
-      image.width = 124;
-      image.height = 124;
-    };
-
-    photoUser.onerror = function() {
-      comment.classList.add(clsError);
-    };
-
-    photoUser.src = review.author.picture;
-    return comment;
+  var Review = function(data) {
+    this.data = data;
+    this.element = templateComment.querySelector(selectorArticle).cloneNode(true);
   };
 
-  return getCommentElement;
+  Review.prototype = {
+
+    addHandlerClick: function() {
+      var blockQuiz = this.element.querySelector(selectorBlockQuiz);
+      var elementsRating = blockQuiz.querySelectorAll(selectorRatingReview);
+      elementsRating = [].slice.call(elementsRating);
+      blockQuiz.onclick = function(evt) {
+        elementsRating.forEach(function(item) {
+          if (item === evt.target) {
+            item.classList.add(clsRatingReviewActive);
+          }
+          if (item !== evt.target) {
+            item.classList.remove(clsRatingReviewActive);
+          }
+        });
+      };
+    },
+
+    removeHandlerClick: function() {
+      var blockQuiz = this.element.querySelector(selectorBlockQuiz);
+      blockQuiz.onclick = null;
+    },
+
+    addInfoOnTemplate: function() {
+      var self = this;
+      var image = this.element.querySelector(selectorPhotoAuthor);
+      image.title = this.data.author.name;
+      this.element.querySelector(selectorRatingStars).textContent = this.data.rating;
+      this.element.querySelector(selectorCommentDescription).textContent = this.data.description;
+
+      var photoUser = new Image();
+
+      photoUser.onload = function() {
+        image.setAttribute('src', self.data.author.picture);
+        image.width = 124;
+        image.height = 124;
+      };
+
+      photoUser.onerror = function() {
+        image.classList.add(clsError);
+      };
+
+      photoUser.src = this.data.author.picture;
+      image.src = photoUser.src;
+    }
+  };
+  return Review;
 });
