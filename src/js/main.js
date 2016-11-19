@@ -12,8 +12,8 @@ require(['./gallery', './reviews', './form', './game'], function(Gallery) {
   var clicker = function(evt) {
     var elementClicked = evt.target;
     var elementSrc = elementClicked.src;
-    if (elementSrc) {
-      for (var i = 0; i < srcImages.length; i++) {
+    for (var i = 0; i < srcImages.length; i++) {
+      if ( elementClicked.tagName === 'IMG' ) {
         if ( elementSrc === srcImages[i]) {
           gallery.show(i);
         }
