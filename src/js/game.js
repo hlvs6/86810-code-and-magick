@@ -761,4 +761,24 @@ define([], function() {
 
     return Game;
   })();
+
+  var selectorCloud = '.header-clouds';
+  var selectorDemo = '.demo';
+  var cloudsInSky = document.querySelector(selectorCloud);
+  var demoGame = document.querySelector(selectorDemo);
+  var lastCall = Date.now();
+  var THROTTLE_TIMEOUT = 100;
+
+
+  window.addEventListener('scroll', function(evt) {
+    if (Date.now() - lastCall >= THROTTLE_TIMEOUT) {
+      if (cloudsInSky.getBoundingClientRect().bottom > 0) {
+        cloudsInSky.style.backgroundPosition = cloudsInSky.getBoundingClientRect().bottom + 'px';
+      }
+      if (demoGame.getBoundingClientRect().bottom < 0) {
+        setGameStatus(Game.Verdict.PAUSE);
+      }
+    }
+    lastCall = Date.now();
+  });
 });
