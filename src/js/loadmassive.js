@@ -3,7 +3,7 @@ define([], function() {
 
   var getSearchString = function(params) {
     return Object.keys(params).map( function(param) {
-      return [param,params[param]].join('=');
+      return [param, params[param]].join('=');
     }).join('&');
   };
 

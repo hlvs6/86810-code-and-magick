@@ -9,9 +9,6 @@ define(['./loadmassive', './getComment'], function(loadReviews, Review) {
   var buttonMore = document.querySelector(selectorButtonMore);
   var selectorBlockFilter = '.reviews-filter';
   var blockFilters = document.querySelector(selectorBlockFilter);
-  var selectorRadioFiltres = 'input[name="reviews"]';
-  var massiveFilters = blockFilters.querySelectorAll(selectorRadioFiltres);
-  massiveFilters = [].slice.call(massiveFilters);
   var currentPageNumber = 0;
   var pageSize = 3;
   var activeFilter = 'reviews-all';
@@ -39,7 +36,7 @@ define(['./loadmassive', './getComment'], function(loadReviews, Review) {
     loadReviews(COMMENT_LOAD_URL, { from: currentPageNumber * pageSize, to: currentPageNumber * pageSize + pageSize, filter: activeFilter}, renderComments);
   };
 
-  blockFilters.addEventListener('click', function(evt){
+  blockFilters.addEventListener('click', function(evt) {
     if (evt.target.classList.contains('reviews-filter-item')) {
       var filterID = evt.target.getAttribute('for');
       changeFilter(filterID);
@@ -48,9 +45,9 @@ define(['./loadmassive', './getComment'], function(loadReviews, Review) {
 
   buttonMore.classList.remove('invisible');
 
-  buttonMore.addEventListener('click', function(evt) {
-     currentPageNumber++;
-     loadReviews(COMMENT_LOAD_URL, { from: currentPageNumber * pageSize, to: currentPageNumber * pageSize + pageSize, filter: activeFilter}, renderComments);
+  buttonMore.addEventListener('click', function() {
+    currentPageNumber++;
+    loadReviews(COMMENT_LOAD_URL, { from: currentPageNumber * pageSize, to: currentPageNumber * pageSize + pageSize, filter: activeFilter}, renderComments);
   });
 
   loadReviews(COMMENT_LOAD_URL, { from: currentPageNumber * pageSize, to: currentPageNumber * pageSize + pageSize, filter: activeFilter}, renderComments);
