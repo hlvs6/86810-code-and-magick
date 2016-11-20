@@ -14,7 +14,7 @@ define(['./loadmassive', './getComment'], function(loadReviews, Review) {
   massiveFilters = [].slice.call(massiveFilters);
   var currentPageNumber = 0;
   var pageSize = 3;
-  var activeFilter = null;
+  var activeFilter = 'reviews-all';
 
   var renderComments = function(loadedData) {
 
@@ -26,13 +26,13 @@ define(['./loadmassive', './getComment'], function(loadReviews, Review) {
       comment.addInfoOnTemplate();
       comment.addHandlerClick();
       listComments.appendChild(comment.element);
+      console.log(comment);
     });
 
     blockFilters.classList.remove(clsInvisible);
   };
 
   var changeFilter = function(filterID) {
-
     listComments.innerHTML = '';
     activeFilter = filterID;
     currentPageNumber = 0;
@@ -41,8 +41,8 @@ define(['./loadmassive', './getComment'], function(loadReviews, Review) {
 
   blockFilters.addEventListener('click', function(evt){
     if (evt.target.classList.contains('reviews-filter-item')) {
-      filterID = evt.target.getAttribute('for');
-      console.log(filterID);
+      var filterID = evt.target.getAttribute('for');
+      changeFilter(filterID);
     }
   }, true);
 
