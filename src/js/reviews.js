@@ -12,6 +12,7 @@ define(['./loadmassive', './getComment'], function(loadReviews, Review) {
   var currentPageNumber = 0;
   var pageSize = 3;
   var activeFilter = 'reviews-all';
+  var selectorButtonsFilter = 'input[name="reviews"]';
 
   var renderComments = function(loadedData) {
 
@@ -23,7 +24,6 @@ define(['./loadmassive', './getComment'], function(loadReviews, Review) {
       comment.addInfoOnTemplate();
       comment.addHandlerClick();
       listComments.appendChild(comment.element);
-      console.log(comment);
     });
 
     blockFilters.classList.remove(clsInvisible);
@@ -36,10 +36,14 @@ define(['./loadmassive', './getComment'], function(loadReviews, Review) {
     loadReviews(COMMENT_LOAD_URL, { from: currentPageNumber * pageSize, to: currentPageNumber * pageSize + pageSize, filter: activeFilter}, renderComments);
   };
 
-  blockFilters.addEventListener('click', function(evt) {
-    if (evt.target.classList.contains('reviews-filter-item')) {
-      var filterID = evt.target.getAttribute('for');
-      changeFilter(filterID);
+  var filterButtons = document.querySelectorAll(selectorButtonsFilter);
+  filterButtons = [].slice.call(filterButtons);
+  blockFilters.addEventListener('change', function(evt) {
+    for ( var i = 0; i < filterButtons.length; i++) {
+      if (evt.target === filterButtons[i]) {
+        var filterID = evt.target.value;
+        changeFilter(filterID);
+      }
     }
   }, true);
 
