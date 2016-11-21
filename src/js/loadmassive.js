@@ -1,29 +1,23 @@
 'use strict';
 define([], function() {
 
-  var callBackName = 'jsonpCallback';
-  var massiveName = 'reviews';
-
-  window[callBackName] = function(data) {
-    window[massiveName] = data;
+  var getSearchString = function(params) {
+    return Object.keys(params).map( function(param) {
+      return [param, params[param]].join('=');
+    }).join('&');
   };
 
-  var loadReviews = function(url, callback) {
+  return function(url, params, callback) {
 
-    var script = document.createElement('script');
-    script.src = url + '?callback=' + callBackName;
-    document.body.appendChild(script);
-
-    script.onload = function() {
-
-      callback(window[massiveName]);
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function(evt) {
+      var loadedData = JSON.parse(evt.target.response);
+      callback(loadedData);
     };
-
-    script.onerror = function() {
-
+    xhr.onerror = function() {
       console.warn('Ошибка!');
     };
+    xhr.open('GET', url + '?' + getSearchString(params));
+    xhr.send();
   };
-
-  return loadReviews;
 });
