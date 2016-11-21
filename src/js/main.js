@@ -46,9 +46,9 @@ require(['./gallery', './reviews', './form', './game'], function(Gallery) {
   var selectorDemo = '.demo';
   var boxGame = document.querySelector(selectorDemo);
 
-  window.addEventListener('scroll', function(evt) {
-  if (boxGame.getBoundingClientRect().bottom < 0) {
-    game.setGameStatus(window.Game.Verdict.PAUSE);
+  window.addEventListener('scroll', function() {
+    if (boxGame.getBoundingClientRect().bottom < 0) {
+      game.setGameStatus(window.Game.Verdict.PAUSE);
     }
   });
 });
