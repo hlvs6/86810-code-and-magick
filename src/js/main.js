@@ -42,4 +42,13 @@ require(['./gallery', './reviews', './form', './game'], function(Gallery) {
   window.form.onClose = function() {
     game.setDeactivated(false);
   };
+
+  var selectorDemo = '.demo';
+  var boxGame = document.querySelector(selectorDemo);
+
+  window.addEventListener('scroll', function(evt) {
+  if (boxGame.getBoundingClientRect().bottom < 0) {
+    game.setGameStatus(window.Game.Verdict.PAUSE);
+    }
+  });
 });
