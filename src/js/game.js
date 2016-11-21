@@ -754,22 +754,30 @@ define([], function() {
       _removeGameListeners: function() {
         window.removeEventListener('keydown', this._onKeyDown);
         window.removeEventListener('keyup', this._onKeyUp);
+      },
+
+      addListenerScrolling: function() {
+
+        var selectorCloud = '.header-clouds';
+        var cloudsInSky = document.querySelector(selectorCloud);
+        var lastCall = Date.now();
+        var THROTTLE_TIMEOUT = 100;
+        var selectorDemo = '.demo';
+        var boxGame = document.querySelector(selectorDemo);
+        var self = this;
+
+        window.addEventListener('scroll', function() {
+          if (Date.now() - lastCall >= THROTTLE_TIMEOUT) {
+            if (cloudsInSky.getBoundingClientRect().bottom > 0) {
+              cloudsInSky.style.backgroundPosition = cloudsInSky.getBoundingClientRect().bottom + 'px';
+            } else {
+              self.setGameStatus(window.Game.Verdict.PAUSE);
+            }
+          }
+          lastCall = Date.now();
+        });
       }
     };
-
-    var selectorCloud = '.header-clouds';
-    var cloudsInSky = document.querySelector(selectorCloud);
-    var lastCall = Date.now();
-    var THROTTLE_TIMEOUT = 100;
-
-    window.addEventListener('scroll', function() {
-      if (Date.now() - lastCall >= THROTTLE_TIMEOUT) {
-        if (cloudsInSky.getBoundingClientRect().bottom > 0) {
-          cloudsInSky.style.backgroundPosition = cloudsInSky.getBoundingClientRect().bottom + 'px';
-        }
-      }
-      lastCall = Date.now();
-    });
 
     Game.Verdict = Verdict;
 
