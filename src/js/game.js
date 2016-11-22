@@ -772,7 +772,6 @@ define([], function() {
         var movingClouds = function() {
           cloudsInSky.style.backgroundPositionX = backgroundPositionXDefault + (cloudsInSky.getBoundingClientRect().bottom - heightCloudsInSkyDefault) * indexSpeedClouds + '%';
           lastPositionClouds = cloudsInSky.style.backgroundPositionX;
-          lastCall = Date.now();
         };
 
         var controlVisibleClouds = function() {
@@ -783,14 +782,15 @@ define([], function() {
               if (boxGame.getBoundingClientRect().bottom < 0) {
                 self.setGameStatus(window.Game.Verdict.PAUSE);
               }
-            } else {
-              window.addEventListener('scroll', movingClouds);
             }
+            lastCall = Date.now();
+          } else {
+            window.addEventListener('scroll', movingClouds);
           }
-          lastCall = Date.now();
         };
-        window.addEventListener('scroll', movingClouds);
-        window.addEventListener('scroll', controlVisibleClouds);
+
+        window.addEventListener('scroll', movingClouds, true);
+        window.addEventListener('scroll', controlVisibleClouds, true);
       }
     };
 
