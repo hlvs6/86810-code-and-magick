@@ -760,16 +760,17 @@ define([], function() {
         var selectorCloud = '.header-clouds';
         var cloudsInSky = document.querySelector(selectorCloud);
         var lastCall = Date.now();
-        var THROTTLE_TIMEOUT = 10000;
+        var THROTTLE_TIMEOUT = 100;
         var selectorDemo = '.demo';
         var boxGame = document.querySelector(selectorDemo);
         var self = this;
         var heightCloudsInSkyDefault = cloudsInSky.getBoundingClientRect().bottom;
         var backgroundPositionXDefault = 50;
+        var indexSpeedClouds = 0.1;
         var lastPositionClouds;
 
         var movingClouds = function() {
-          cloudsInSky.style.backgroundPositionX = backgroundPositionXDefault + (cloudsInSky.getBoundingClientRect().bottom - heightCloudsInSkyDefault) + '%';
+          cloudsInSky.style.backgroundPositionX = backgroundPositionXDefault + (cloudsInSky.getBoundingClientRect().bottom - heightCloudsInSkyDefault) * indexSpeedClouds + '%';
           lastPositionClouds = cloudsInSky.style.backgroundPositionX;
           lastCall = Date.now();
         };
@@ -777,7 +778,7 @@ define([], function() {
         var controlVisibleClouds = function() {
           if (Date.now() - lastCall >= THROTTLE_TIMEOUT) {
             if (cloudsInSky.getBoundingClientRect().bottom < 0) {
-              movingClouds = null;
+              window.removeEventListener('scroll', movingClouds);
               cloudsInSky.style.backgroundPositionX = lastPositionClouds;
               if (boxGame.getBoundingClientRect().bottom < 0) {
                 self.setGameStatus(window.Game.Verdict.PAUSE);
