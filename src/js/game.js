@@ -765,9 +765,10 @@ define([], function() {
         var boxGame = document.querySelector(selectorDemo);
         var self = this;
         var heightCloudsInSkyDefault = cloudsInSky.getBoundingClientRect().bottom;
+        var lastPositionClouds;
 
         var movingClouds = function() {
-          cloudsInSky.style.backgroundPositionX =  50 + (cloudsInSky.getBoundingClientRect().bottom - heightCloudsInSkyDefault) / 5 + '%';
+          cloudsInSky.style.backgroundPositionX = 50 + (cloudsInSky.getBoundingClientRect().bottom - heightCloudsInSkyDefault) / 5 + '%';
           lastPositionClouds = cloudsInSky.style.backgroundPositionX;
         };
 
