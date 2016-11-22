@@ -760,7 +760,7 @@ define([], function() {
         var selectorCloud = '.header-clouds';
         var cloudsInSky = document.querySelector(selectorCloud);
         var lastCall = Date.now();
-        var THROTTLE_TIMEOUT = 100;
+        var THROTTLE_TIMEOUT = 10000;
         var selectorDemo = '.demo';
         var boxGame = document.querySelector(selectorDemo);
         var self = this;
@@ -769,8 +769,9 @@ define([], function() {
         var lastPositionClouds;
 
         var movingClouds = function() {
-          cloudsInSky.style.backgroundPositionX = backgroundPositionXDefault + (cloudsInSky.getBoundingClientRect().bottom - heightCloudsInSkyDefault) + '%';
+          cloudsInSky.style.backgroundPositionX = backgroundPositionXDefault + (cloudsInSky.getBoundingClientRect().bottom - heightCloudsInSkyDefault)/10 + '%';
           lastPositionClouds = cloudsInSky.style.backgroundPositionX;
+          lastCall = Date.now();
         };
 
         var controlVisibleClouds = function() {
@@ -786,6 +787,7 @@ define([], function() {
             }
           }
           lastCall = Date.now();
+          console.log(lastCall);
         };
         window.addEventListener('scroll', movingClouds);
         window.addEventListener('scroll', controlVisibleClouds);
