@@ -765,17 +765,18 @@ define([], function() {
         var boxGame = document.querySelector(selectorDemo);
         var self = this;
         var heightCloudsInSkyDefault = cloudsInSky.getBoundingClientRect().bottom;
+        var backgroundPositionXDefault = 50;
         var lastPositionClouds;
 
         var movingClouds = function() {
-          cloudsInSky.style.backgroundPositionX = 50 + (cloudsInSky.getBoundingClientRect().bottom - heightCloudsInSkyDefault) / 5 + '%';
+          cloudsInSky.style.backgroundPositionX = backgroundPositionXDefault + (cloudsInSky.getBoundingClientRect().bottom - heightCloudsInSkyDefault) + '%';
           lastPositionClouds = cloudsInSky.style.backgroundPositionX;
         };
 
         var controlVisibleClouds = function() {
           if (Date.now() - lastCall >= THROTTLE_TIMEOUT) {
             if (cloudsInSky.getBoundingClientRect().bottom < 0) {
-              window.removeEventListener('scroll', movingClouds);
+              movingClouds = null;
               cloudsInSky.style.backgroundPositionX = lastPositionClouds;
               if (boxGame.getBoundingClientRect().bottom < 0) {
                 self.setGameStatus(window.Game.Verdict.PAUSE);
