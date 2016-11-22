@@ -769,7 +769,7 @@ define([], function() {
         var lastPositionClouds;
 
         var movingClouds = function() {
-          cloudsInSky.style.backgroundPositionX = backgroundPositionXDefault + (cloudsInSky.getBoundingClientRect().bottom - heightCloudsInSkyDefault)/10 + '%';
+          cloudsInSky.style.backgroundPositionX = backgroundPositionXDefault + (cloudsInSky.getBoundingClientRect().bottom - heightCloudsInSkyDefault) + '%';
           lastPositionClouds = cloudsInSky.style.backgroundPositionX;
           lastCall = Date.now();
         };
