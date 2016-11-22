@@ -54,14 +54,14 @@ define([], function() {
         image.setAttribute('src', self.data.author.picture);
         image.width = 124;
         image.height = 124;
+
       };
 
       photoUser.onerror = function() {
         image.classList.add(clsError);
       };
 
-      photoUser.src = this.data.author.picture;
-      image.src = photoUser.src;
+      image.src = this.data.author.picture;
     }
   };
   return Review;

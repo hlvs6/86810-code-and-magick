@@ -26,6 +26,7 @@ require(['./gallery', './reviews', './form', './game'], function(Gallery) {
   var game = new window.Game(document.querySelector('.demo'));
   game.initializeLevelAndStart();
   game.setGameStatus(window.Game.Verdict.INTRO);
+  game.addListenerScrolling();
 
   var formOpenButton = document.querySelector('.reviews-controls-new');
 
