@@ -782,10 +782,10 @@ define([], function() {
               if (boxGame.getBoundingClientRect().bottom < 0) {
                 self.setGameStatus(window.Game.Verdict.PAUSE);
               }
+            } else {
+              window.addEventListener('scroll', movingClouds);
             }
             lastCall = Date.now();
-          } else {
-            window.addEventListener('scroll', movingClouds);
           }
         };
 
