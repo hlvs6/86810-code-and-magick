@@ -788,7 +788,6 @@ define([], function() {
             }
           }
           lastCall = Date.now();
-          console.log(lastCall);
         };
         window.addEventListener('scroll', movingClouds);
         window.addEventListener('scroll', controlVisibleClouds);
