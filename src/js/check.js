@@ -1,5 +1,6 @@
 'use strict';
 
+// Test
 function numberOfSteps(a) {
   for (var i = 0, amount = 0; i < a.length; i++) {
     amount = amount + a[i];
